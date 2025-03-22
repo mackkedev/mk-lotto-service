@@ -1,0 +1,25 @@
+package com.mk.demo.controller;
+
+import com.mk.demo.response.EurojackpotResponse;
+import com.mk.demo.service.EurojackpotService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/app/v1/eurojackpot")
+public class EurojackpotController {
+
+    private final EurojackpotService eurojackpotService;
+
+    public EurojackpotController(EurojackpotService eurojackpotService) {
+        this.eurojackpotService = eurojackpotService;
+    }
+
+    @PostMapping("/generate")
+    public ResponseEntity<EurojackpotResponse> getBettingCoupons(@RequestBody EurojackpotRequest request) {
+        return new ResponseEntity<>(new EurojackpotResponse(eurojackpotService.generateRows(request)), HttpStatus.OK);
+    }
+}

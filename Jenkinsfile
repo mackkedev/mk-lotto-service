@@ -6,14 +6,6 @@ pipeline {
     }
 
     stages {
-        stage("Checkout code") {
-            steps {
-                sh "ls"
-                git branch: 'main', url: 'https://github.com/mackkedev/mk-lotto-service'
-                sh "ls"
-            }
-        }
-
         stage("Run tests") {
             steps {
                 sh "mvn clean install"

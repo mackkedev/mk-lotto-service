@@ -19,7 +19,13 @@ public class EurojackpotController {
     }
 
     @PostMapping("/generate")
-    public ResponseEntity<EurojackpotResponse> getBettingCoupons(@RequestBody EurojackpotRequest request) {
+    public ResponseEntity<EurojackpotResponse> getEurojackpotRows(@RequestBody EurojackpotRequest request) {
         return new ResponseEntity<>(new EurojackpotResponse(eurojackpotService.generateRows(request)), HttpStatus.OK);
+    }
+
+    @PostMapping("/generate/highest/chance")
+    public ResponseEntity<HttpStatus> getEurojackpotHighChanceRows(@RequestBody EurojackpotRequest request) {
+        System.out.println("in development");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

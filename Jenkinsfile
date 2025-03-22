@@ -1,18 +1,23 @@
 echo "Initializing job!"
 
 
-node {
-    stage("checkout"){
+pipeline {
+    agent any  // Runs on any available Jenkins agent
+
+    environment {
+        MAVEN_HOME = tool 'Maven'  // Ensure Maven is installed in Jenkins
+    }
+    stage("Checkout code"){
     sh "ls"
     git branch: 'main', url: 'https://github.com/mackkedev/mk-lotto-service'
     sh "ls"
     }
 
-    stage("build"){
+    stage("Build with maven"){
         sh "mvn package"
     }
 
-    stage("tests"){
+    stage("Run tests"){
         sh "mvn clean install"
     }
 
@@ -21,5 +26,12 @@ node {
         junit '**/target/surefire-reports/TEST*.xml'
     }
 
-    stage("post action"){}
+    post {
+            success {
+                echo "Build and tests completed successfully!"
+            }
+            failure {
+                echo "Build failed! Check logs for errors."
+            }
+        }
 }

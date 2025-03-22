@@ -1,5 +1,6 @@
 echo "Initializing job!"
 
+agent any
 
 node {
     stage("checkout"){

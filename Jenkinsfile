@@ -12,6 +12,10 @@ node {
         sh "mvn package"
     }
 
+    stage("tests"){
+        sh "mvn clean install"
+    }
+
     stage("capture"){
         archiveArtifacts artifacts: '**/target/*.jar'
         junit '**/target/surefire-reports/TEST*.xml'

@@ -1,14 +1,12 @@
 package com.mk.demo.service;
 
+import com.mk.demo.controller.EurojackpotRequest;
 import com.mk.demo.dto.EurojackpotRowDto;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -27,13 +25,16 @@ public class EurojackpotServiceTest {
 
     @Test
     public void given_generateEurojackpotRows_assert_correct_size() {
-        List<EurojackpotRowDto> rows = eurojackpotService.generateRows(5);
+        EurojackpotRequest request = new EurojackpotRequest(5);
+
+        List<EurojackpotRowDto> rows = eurojackpotService.generateRows(request);
         assertEquals(5, rows.size());
     }
 
     @Test
     public void given_generate_eurojackpot_rows_validate_numbers() {
-        List<EurojackpotRowDto> result = eurojackpotService.generateRows(1);
+        EurojackpotRequest request = new EurojackpotRequest(1);
+        List<EurojackpotRowDto> result = eurojackpotService.generateRows(request);
 
         assertNotNull(result, "Result should not be null");
 

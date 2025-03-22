@@ -16,4 +16,6 @@ node {
         archiveArtifacts artifacts: '**/target/*.jar'
         junit '**/target/surefire-reports/TEST*.xml'
     }
+
+    stage("post action"){}
 }

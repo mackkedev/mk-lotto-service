@@ -1,4 +1,4 @@
-package com.mk.demo.controller;
+package com.mk.demo.request;
 
 public record EurojackpotRequest(int rows) {
 }

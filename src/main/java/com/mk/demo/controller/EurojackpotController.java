@@ -1,11 +1,10 @@
 package com.mk.demo.controller;
 
+import com.mk.demo.request.EurojackpotRequest;
 import com.mk.demo.response.EurojackpotResponse;
 import com.mk.demo.service.EurojackpotService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

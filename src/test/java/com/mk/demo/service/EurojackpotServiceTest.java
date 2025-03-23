@@ -1,6 +1,6 @@
 package com.mk.demo.service;
 
-import com.mk.demo.controller.EurojackpotRequest;
+import com.mk.demo.request.EurojackpotRequest;
 import com.mk.demo.dto.EurojackpotRowDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

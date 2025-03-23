@@ -25,6 +25,6 @@ public class EurojackpotController {
     @PostMapping("/generate/highest/chance")
     public ResponseEntity<HttpStatus> getEurojackpotHighChanceRows(@RequestBody EurojackpotRequest request) {
         System.out.println("in development");
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
 }

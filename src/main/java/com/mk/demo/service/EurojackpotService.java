@@ -6,10 +6,7 @@ import com.mk.demo.util.EurojackpotGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +23,18 @@ public class EurojackpotService {
         return jackpotRows;
     }
 
-    public List<Integer> generateHighestChangeRows() {
+    public List<EurojackpotRowDto> generateHighChanceRows() {
+        List<Integer> mainNumbers = generateMainNumbers();
+        List<Integer> euroNumbers = generateEuroNumbers();
+
+        return List.of(new EurojackpotRowDto(mainNumbers, euroNumbers));
+    }
+
+    private static List<Integer> generateMainNumbers() {
         List<Integer> row = new ArrayList<>();
 
-        boolean isTwoEven = random.nextBoolean(); // Randomly decide 2 even + 3 odd OR 3 even + 2 odd
-
+        // Decide even-odd distribution randomly
+        boolean isTwoEven = random.nextBoolean();
         int evenCount = isTwoEven ? 2 : 3;
         int oddCount = 5 - evenCount;
 
@@ -39,16 +43,30 @@ public class EurojackpotService {
         List<Integer> oddNumbersUnder25 = getNumbers(1, 23, false);
         List<Integer> oddNumbersOver25 = getNumbers(27, 49, false);
 
-        // Pick required numbers
+        // Pick required even numbers
         row.addAll(pickNumbers(evenNumbersUnder25, evenNumbersOver25, evenCount));
+        // Pick required odd numbers
         row.addAll(pickNumbers(oddNumbersUnder25, oddNumbersOver25, oddCount));
 
-        // Sort the row for readability (optional)
+        // Sort for readability
         Collections.sort(row);
         return row;
     }
 
-    private List<Integer> getNumbers(int start, int end, boolean even) {
+    private static List<Integer> generateEuroNumbers() {
+        List<Integer> euroNumbers = new ArrayList<>();
+        Set<Integer> usedNumbers = new HashSet<>();
+
+        while (euroNumbers.size() < 2) {
+            int num = random.nextInt(12) + 1;  // Generates numbers between 1-12
+            if (usedNumbers.add(num)) {
+                euroNumbers.add(num);
+            }
+        }
+        return euroNumbers;
+    }
+
+    private static List<Integer> getNumbers(int start, int end, boolean even) {
         List<Integer> numbers = new ArrayList<>();
         for (int i = start; i <= end; i++) {
             if ((i % 2 == 0) == even) {
@@ -58,25 +76,28 @@ public class EurojackpotService {
         return numbers;
     }
 
-    private List<Integer> pickNumbers(List<Integer> under25, List<Integer> over25, int count) {
+    private static List<Integer> pickNumbers(List<Integer> under25, List<Integer> over25, int count) {
         List<Integer> pickedNumbers = new ArrayList<>();
 
         if (count == 2) { // Pick 1 from under 25, 1 from over 25
-            pickedNumbers.add(under25.remove(random.nextInt(under25.size())));
-            pickedNumbers.add(over25.remove(random.nextInt(over25.size())));
+            pickedNumbers.add(removeRandom(under25));
+            pickedNumbers.add(removeRandom(over25));
         } else { // Pick 2 from one, 1 from the other
             if (random.nextBoolean()) {
-                pickedNumbers.add(under25.remove(random.nextInt(under25.size())));
-                pickedNumbers.add(under25.remove(random.nextInt(under25.size())));
-                pickedNumbers.add(over25.remove(random.nextInt(over25.size())));
+                pickedNumbers.add(removeRandom(under25));
+                pickedNumbers.add(removeRandom(under25));
+                pickedNumbers.add(removeRandom(over25));
             } else {
-                pickedNumbers.add(over25.remove(random.nextInt(over25.size())));
-                pickedNumbers.add(over25.remove(random.nextInt(over25.size())));
-                pickedNumbers.add(under25.remove(random.nextInt(under25.size())));
+                pickedNumbers.add(removeRandom(over25));
+                pickedNumbers.add(removeRandom(over25));
+                pickedNumbers.add(removeRandom(under25));
             }
         }
-
         return pickedNumbers;
+    }
+
+    private static Integer removeRandom(List<Integer> list) {
+        return list.remove(random.nextInt(list.size()));
     }
 
 }

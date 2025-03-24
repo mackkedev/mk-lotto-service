@@ -23,11 +23,17 @@ public class EurojackpotService {
         return jackpotRows;
     }
 
-    public List<EurojackpotRowDto> generateHighChanceRows() {
+    public List<EurojackpotRowDto> generateHighChanceRows(EurojackpotRequest eurojackpotRequest) {
+        List<EurojackpotRowDto> rows = new ArrayList<>();
+
         List<Integer> mainNumbers = generateMainNumbers();
         List<Integer> euroNumbers = generateEuroNumbers();
 
-        return List.of(new EurojackpotRowDto(mainNumbers, euroNumbers));
+        for (int i = 0; i < eurojackpotRequest.rows() ; i++) {
+            rows.add(new EurojackpotRowDto(mainNumbers, euroNumbers));
+        }
+
+        return rows;
     }
 
     private static List<Integer> generateMainNumbers() {

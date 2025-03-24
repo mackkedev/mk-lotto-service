@@ -50,4 +50,21 @@ public class EurojackpotServiceTest {
                     "All euro numbers should be between 1 and 12");
         }
     }
+
+    @Test
+    public void given_generateHighChanceRows_validate_numbers(){
+        EurojackpotRequest request = new EurojackpotRequest(1);
+
+        List<EurojackpotRowDto> result = eurojackpotService.generateHighChanceRows(request);
+
+        // Count even and odd numbers
+        for (EurojackpotRowDto eurojackpotRowDto : result) {
+            long evenCount = eurojackpotRowDto.getMainNumbers().stream().filter(num -> num % 2 == 0).count();
+            long oddCount = eurojackpotRowDto.getMainNumbers().size() - evenCount; // Since total is always 5
+
+            boolean isValidDistribution = (evenCount == 2 && oddCount == 3) || (evenCount == 3 && oddCount == 2);
+            // Assert the even-odd rule
+            assertTrue(isValidDistribution, "Main numbers must contain either 2 even + 3 odd or 3 even + 2 odd");
+        }
+    }
 }

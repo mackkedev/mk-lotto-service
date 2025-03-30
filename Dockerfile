@@ -5,10 +5,10 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copy the built .jar file from the Maven target directory
-COPY target/lotto-app-0.0.1-SNAPSHOT.jar /app.jar
+COPY target/lotto-app-0.0.1-SNAPSHOT.jar /lotto-app.jar
 
 # Run the .jar file when the container starts
-ENTRYPOINT ["java", "-jar", "/lotto-app-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/lotto-app.jar"]
 
 # Expose the port your application is listening on (if applicable)
 EXPOSE 8080
